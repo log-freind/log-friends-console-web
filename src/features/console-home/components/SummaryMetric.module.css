@@ -1,0 +1,22 @@
+.summary {
+  min-width: 0;
+  border: 1px solid #d8e0ec;
+  border-radius: 8px;
+  background: #fff;
+  padding: 16px;
+}
+
+.summary span {
+  display: block;
+  color: #63718a;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+}
+
+.summary strong {
+  display: block;
+  overflow-wrap: anywhere;
+  font-size: 18px;
+}

@@ -1,0 +1,33 @@
+.status {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 36px;
+  padding: 0 12px;
+  border: 1px solid #d6deea;
+  border-radius: 999px;
+  background: #fff;
+  color: #42516a;
+  font-size: 13px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.status span {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #98a6ba;
+}
+
+.online span {
+  background: #17a66a;
+}
+
+.offline span {
+  background: #e05c2f;
+}
+
+.checking span {
+  background: #6b7df2;
+}

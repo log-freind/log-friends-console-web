@@ -1,0 +1,31 @@
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: fit-content;
+  min-height: 36px;
+  border: 1px solid #d6defd;
+  border-radius: 8px;
+  background: #f7f8ff;
+  color: #4f61d8;
+  cursor: pointer;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 760;
+  padding: 0 12px;
+  transition:
+    background 160ms ease,
+    border-color 160ms ease,
+    color 160ms ease;
+}
+
+.button:hover {
+  border-color: #9aa9ff;
+  background: #eef1ff;
+  color: #3345c7;
+}
+
+.button:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
