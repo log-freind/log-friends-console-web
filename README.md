@@ -25,6 +25,8 @@ npm install
 npm run dev
 ```
 
+VS Code에서는 `Tasks: Run Task`에서 `Next.js: dev`를 실행한다.
+
 Open:
 
 ```text

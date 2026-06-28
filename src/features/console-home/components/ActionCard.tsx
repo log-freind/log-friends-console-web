@@ -6,6 +6,7 @@ type ActionCardProps = {
   title: string;
   description: string;
   href: string;
+  external?: boolean;
 };
 
 export function ActionCard({
@@ -13,6 +14,7 @@ export function ActionCard({
   title,
   description,
   href,
+  external = false,
 }: ActionCardProps) {
   return (
     <article className={styles.card}>
@@ -21,7 +23,9 @@ export function ActionCard({
         <h2>{title}</h2>
         <p>{description}</p>
       </div>
-      <ButtonLink href={href}>Open</ButtonLink>
+      <ButtonLink external={external} href={href}>
+        Open
+      </ButtonLink>
     </article>
   );
 }

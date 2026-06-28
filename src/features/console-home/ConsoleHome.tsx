@@ -12,25 +12,26 @@ type ConsoleHomeProps = {
 
 const workflowCards = [
   {
-    label: "Current Console UI",
+    label: "Review",
     title: "Log Catalog",
     description:
-      "Review eventName, API context, LogSpec hints, recent samples, and field requests.",
+      "Inspect API context, eventName, annotation hints, fields, and recent samples.",
     href: "/log-catalog",
   },
   {
-    label: "Current Console UI",
+    label: "Export",
     title: "Raw Events",
     description:
-      "Query LOG_EVENT records and download the selected date range as CSV.",
+      "Filter LOG_EVENT rows by app, worker, eventName, and time range for CSV export.",
     href: "/raw-events",
   },
   {
-    label: "Backend API",
+    label: "Health",
     title: "Catalog Apps API",
     description:
-      "Check whether the web app can reach the Console backend before migrating screens.",
+      "Open the backend response directly when the web app and Console contract need checking.",
     href: "/api/log-catalog/apps",
+    external: true,
   },
 ];
 
@@ -44,7 +45,11 @@ export function ConsoleHome({
       <header className={styles.header}>
         <div>
           <p className={styles.eyebrow}>Log Friends Console Web</p>
-          <h1>Operate log contracts from one console.</h1>
+          <h1>Review event contracts and export raw LOG_EVENT data.</h1>
+          <p className={styles.lead}>
+            Console backend remains the source of truth. This web app focuses on
+            fast review, filtering, and handoff to data work.
+          </p>
         </div>
         <StatusBadge state={apiState} />
       </header>
@@ -62,7 +67,8 @@ export function ConsoleHome({
             label={card.label}
             title={card.title}
             description={card.description}
-            href={`${apiBaseUrl}${card.href}`}
+            href={card.external ? `${apiBaseUrl}${card.href}` : card.href}
+            external={card.external}
           />
         ))}
       </section>
