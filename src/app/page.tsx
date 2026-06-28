@@ -2,6 +2,7 @@
 
 import { ConsoleHome } from "@/features/console-home/ConsoleHome";
 import { useCatalogAppsQuery } from "@/features/console-home/api/useCatalogAppsQuery";
+import { AppNav } from "@/components/layout/AppNav";
 import { getConsoleApiBaseUrl } from "@/lib/config/env";
 import type { ApiState } from "@/types/console";
 import styles from "./page.module.css";
@@ -18,6 +19,7 @@ export default function Home() {
 
   return (
     <main className={styles.page}>
+      <AppNav />
       <ConsoleHome
         apiBaseUrl={apiBaseUrl}
         apiState={apiState}

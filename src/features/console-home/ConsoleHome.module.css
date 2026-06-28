@@ -27,6 +27,14 @@
   font-weight: 760;
 }
 
+.lead {
+  max-width: 680px;
+  color: #516079;
+  font-size: 16px;
+  line-height: 1.55;
+  margin-top: 12px;
+}
+
 .summaryGrid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
