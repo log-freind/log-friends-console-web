@@ -1,0 +1,78 @@
+name: Console Web CI/CD
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  packages: write
+
+concurrency:
+  group: log-friends-console-web-deploy
+  cancel-in-progress: true
+
+env:
+  IMAGE_NAME: ghcr.io/log-freind/log-friends-console-web
+  K8S_NAMESPACE: log-friends
+  K8S_DEPLOYMENT: log-friends-console-web
+  HEALTH_URL: http://127.0.0.1:30000
+
+jobs:
+  build-and-deploy:
+    runs-on: [self-hosted, Linux, X64]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "25"
+          cache: npm
+
+      - name: Validate runner tools
+        run: |
+          docker version
+          microk8s status --wait-ready
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Build
+        run: npm run build
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Login to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GHCR_TOKEN }}
+
+      - name: Build and push image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          platforms: linux/amd64
+          push: true
+          tags: |
+            ${{ env.IMAGE_NAME }}:latest
+            ${{ env.IMAGE_NAME }}:${{ github.sha }}
+
+      - name: Restart Console Web deployment
+        run: |
+          microk8s kubectl rollout restart deployment/${K8S_DEPLOYMENT} -n ${K8S_NAMESPACE}
+          microk8s kubectl rollout status deployment/${K8S_DEPLOYMENT} -n ${K8S_NAMESPACE} --timeout=180s
+
+      - name: Health check
+        run: |
+          curl --fail --retry 12 --retry-delay 5 --retry-connrefused "${HEALTH_URL}"
