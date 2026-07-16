@@ -26,6 +26,7 @@ export function LogCatalogPage() {
   const eventsQuery = useLogCatalogEventsQuery({
     appName: selectedApp?.appName,
     workerId: selectedWorkerId || undefined,
+    sampleSize: 0,
   });
 
   const events = useMemo(() => eventsQuery.data?.events ?? [], [eventsQuery.data?.events]);
@@ -58,7 +59,7 @@ export function LogCatalogPage() {
       <header className={styles.header}>
         <div>
           <p className={styles.eyebrow}>Log Catalog</p>
-          <h1>LOG_EVENT 계약과 최근 샘플을 한 화면에서 확인합니다.</h1>
+          <h1>LOG_EVENT 계약과 필드 상태를 한 화면에서 확인합니다.</h1>
         </div>
       </header>
 
@@ -180,7 +181,7 @@ export function LogCatalogPage() {
                     </span>
                     <span className={styles.eventButtonApi}>{getEventTitle(event)}</span>
                     <span className={styles.eventButtonMeta}>
-                      {event.fields.length} fields · {event.samples.length} samples · {event.discoveredHints.length} hints
+                      {event.fields.length} fields · {event.discoveredHints.length} hints
                     </span>
                   </button>
                 ))}
@@ -246,7 +247,6 @@ function EventCard({ event }: { event: LogCatalogEvent }) {
       <div className={styles.metaGrid} aria-label="Selected event metadata">
         <MetaItem label="Status" value={getStatusLabel(event.specStatus)} />
         <MetaItem label="Fields" value={String(fields.length)} />
-        <MetaItem label="Samples" value={String(event.samples.length)} />
         <MetaItem label="Hints" value={String(event.discoveredHints.length)} />
         <MetaItem label="Mismatches" value={String(event.mismatches.length)} />
         <MetaItem label="Field Requests" value={String(event.fieldRequests.length)} />
@@ -278,19 +278,6 @@ function EventCard({ event }: { event: LogCatalogEvent }) {
         )}
       </Section>
 
-      <Section title="Recent Samples">
-        {event.samples.length ? (
-          event.samples.map((sample) => (
-            <pre className={styles.code} key={`${sample.workerId}-${sample.ts}`}>
-              {sample.workerId} · {formatDate(sample.ts)}
-              {"\n"}
-              {JSON.stringify(sample.payload, null, 2)}
-            </pre>
-          ))
-        ) : (
-          <Pill>아직 샘플 없음</Pill>
-        )}
-      </Section>
     </article>
   );
 }
@@ -394,13 +381,6 @@ function getHintTitle(hint?: DiscoveredHint) {
 
 function getHintDescription(hint?: DiscoveredHint) {
   return hint?.specHint?.apiDescription ?? hint?.specHint?.description;
-}
-
-function formatDate(value: string) {
-  return new Intl.DateTimeFormat("ko-KR", {
-    dateStyle: "short",
-    timeStyle: "medium",
-  }).format(new Date(value));
 }
 
 function formatValue(value: unknown) {

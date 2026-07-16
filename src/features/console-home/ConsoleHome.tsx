@@ -15,7 +15,7 @@ const workflowCards = [
     label: "Review",
     title: "Log Catalog",
     description:
-      "Inspect API context, eventName, annotation hints, fields, and recent samples.",
+      "Inspect API context, eventName, annotation hints, fields, and mismatches.",
     href: "/log-catalog",
   },
   {

@@ -21,7 +21,7 @@ log-friends-sdk
 | Route | Purpose |
 |---|---|
 | `/` | overview, Console API health, app count, migration targets |
-| `/log-catalog` | app/worker filtering, event list, event detail, LogSpec hints, samples, mismatches |
+| `/log-catalog` | app/worker filtering, event list, event detail, LogSpec hints, fields, mismatches |
 | `/raw-events` | raw `LOG_EVENT` query, app/worker/eventName/time range/limit filters, CSV download |
 
 ## Backend API Dependency
