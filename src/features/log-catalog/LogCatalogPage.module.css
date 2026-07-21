@@ -50,7 +50,7 @@
 
 .toolbar select {
   width: 100%;
-  min-height: 42px;
+  min-height: 44px;
   border: 1px solid #d8e0ec;
   border-radius: 8px;
   background: #fff;
@@ -137,7 +137,7 @@
 .eventControls input,
 .eventControls select {
   width: 100%;
-  min-height: 38px;
+  min-height: 44px;
   border: 1px solid #d8e0ec;
   border-radius: 8px;
   background: #fff;
@@ -184,6 +184,7 @@
 
 .eventButton {
   width: 100%;
+  min-height: 96px;
   color: inherit;
   cursor: pointer;
   font: inherit;
@@ -254,7 +255,7 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-height: 34px;
+  min-height: 44px;
   border: 1px solid #d8e0ec;
   border-radius: 8px;
   background: #fff;
@@ -282,6 +283,15 @@
   font-size: 13px;
   font-weight: 760;
   white-space: nowrap;
+}
+
+.noResults {
+  border-top: 1px solid #edf1f6;
+  color: #516079;
+  font-size: 13px;
+  line-height: 1.45;
+  margin-top: 10px;
+  padding-top: 12px;
 }
 
 .eventCard {

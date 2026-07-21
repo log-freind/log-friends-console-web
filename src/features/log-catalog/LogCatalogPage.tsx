@@ -88,7 +88,11 @@ export function LogCatalogPage() {
           Worker
           <select
             value={selectedWorkerId}
-            onChange={(event) => setSelectedWorkerId(event.target.value)}
+            onChange={(event) => {
+              setSelectedWorkerId(event.target.value);
+              setSelectedEventName("");
+              setEventPage(0);
+            }}
           >
             <option value="">All workers</option>
             {selectedApp?.workerIds.map((workerId) => (
@@ -171,6 +175,7 @@ export function LogCatalogPage() {
                       selectedEvent?.eventName === event.eventName ? styles.selectedEventButton : ""
                     }`}
                     aria-pressed={selectedEvent?.eventName === event.eventName}
+                    aria-label={`${event.eventName}, ${getStatusLabel(event.specStatus)}`}
                     key={event.eventName}
                     onClick={() => setSelectedEventName(event.eventName)}
                     type="button"
@@ -186,31 +191,37 @@ export function LogCatalogPage() {
                   </button>
                 ))}
               </div>
-              <div className={styles.pagination}>
-                <button
-                  disabled={currentEventPage === 0}
-                  onClick={() => {
-                    setEventPage((page) => Math.max(0, page - 1));
-                    setSelectedEventName("");
-                  }}
-                  type="button"
-                >
-                  Prev
-                </button>
-                <span>
-                  {currentEventPage + 1} / {eventPageCount}
-                </span>
-                <button
-                  disabled={currentEventPage >= eventPageCount - 1}
-                  onClick={() => {
-                    setEventPage((page) => Math.min(eventPageCount - 1, page + 1));
-                    setSelectedEventName("");
-                  }}
-                  type="button"
-                >
-                  Next
-                </button>
-              </div>
+              {filteredEvents.length ? (
+                <div className={styles.pagination}>
+                  <button
+                    aria-label="Previous event page"
+                    disabled={currentEventPage === 0}
+                    onClick={() => {
+                      setEventPage((page) => Math.max(0, page - 1));
+                      setSelectedEventName("");
+                    }}
+                    type="button"
+                  >
+                    Prev
+                  </button>
+                  <span>
+                    {currentEventPage + 1} / {eventPageCount}
+                  </span>
+                  <button
+                    aria-label="Next event page"
+                    disabled={currentEventPage >= eventPageCount - 1}
+                    onClick={() => {
+                      setEventPage((page) => Math.min(eventPageCount - 1, page + 1));
+                      setSelectedEventName("");
+                    }}
+                    type="button"
+                  >
+                    Next
+                  </button>
+                </div>
+              ) : (
+                <p className={styles.noResults}>조건에 맞는 eventName이 없습니다.</p>
+              )}
             </section>
           </aside>
 

@@ -8,13 +8,13 @@
   border-radius: 8px;
   background: #fff;
   margin: 0 auto 20px;
-  padding: 10px 12px;
+  padding: 8px 10px;
 }
 
 .brand {
   display: inline-flex;
   align-items: center;
-  min-height: 34px;
+  min-height: 44px;
   color: #172033;
   font-size: 14px;
   font-weight: 800;
@@ -25,17 +25,19 @@
   display: flex;
   align-items: center;
   gap: 6px;
+  min-width: 0;
 }
 
 .link {
   display: inline-flex;
   align-items: center;
-  min-height: 34px;
+  min-height: 44px;
   border-radius: 8px;
   color: #516079;
   font-size: 13px;
   font-weight: 760;
-  padding: 0 10px;
+  padding: 0 12px;
+  white-space: nowrap;
 }
 
 .link:hover {

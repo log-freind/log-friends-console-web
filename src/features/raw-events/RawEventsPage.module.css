@@ -63,7 +63,7 @@
 .toolbar input,
 .toolbar select {
   width: 100%;
-  min-height: 42px;
+  min-height: 44px;
   border: 1px solid #d8e0ec;
   border-radius: 8px;
   background: #fff;
@@ -91,14 +91,14 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-height: 36px;
+  min-height: 44px;
   border: 1px solid #d6defd;
   border-radius: 8px;
   background: #f7f8ff;
   color: #4f61d8;
   font-size: 13px;
   font-weight: 760;
-  padding: 0 12px;
+  padding: 0 14px;
   text-decoration: none;
   white-space: nowrap;
   transition:
@@ -167,6 +167,15 @@
   table-layout: fixed;
 }
 
+.tableCaption {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
 .table th:nth-child(1) {
   width: 170px;
 }
@@ -192,6 +201,10 @@
 }
 
 .table th {
+  position: sticky;
+  z-index: 1;
+  top: 0;
+  background: #fff;
   color: #5c6a82;
   font-size: 12px;
   letter-spacing: 0.04em;
@@ -202,6 +215,14 @@
   color: #172033;
   font-size: 14px;
   line-height: 1.4;
+}
+
+.table tbody tr:nth-child(even) {
+  background: #fbfcff;
+}
+
+.table tbody tr:hover {
+  background: #f6f9fc;
 }
 
 .timestampCell,
@@ -230,13 +251,14 @@
 
 .payload {
   width: 100%;
-  max-height: 260px;
+  max-height: 220px;
   overflow: auto;
   border-radius: 8px;
   background: #101827;
   color: #f8fafc;
   font-size: 13px;
   line-height: 1.5;
+  font-family: var(--font-geist-mono), ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
   margin: 0;
   padding: 12px;
   white-space: pre-wrap;

@@ -42,6 +42,7 @@ export function RawEventsPage() {
   const rawEventsQuery = useRawCustomEventsQuery(queryParams);
   const rowCount = rawEventsQuery.data?.length ?? 0;
   const canSubmit = Boolean(from && to);
+  const rangeLabel = `${formatDate(queryParams.from)} - ${formatDate(queryParams.to)}`;
   const csvHref = buildRawCustomEventsCsvUrl({
     appName: queryParams.appName,
     workerId: queryParams.workerId,
@@ -156,11 +157,13 @@ export function RawEventsPage() {
       <section className={styles.resultHeader}>
         <div>
           <strong>{rowCount.toLocaleString()} rows loaded</strong>
-          <span>Table limit is {submitted.limit.toLocaleString()} rows.</span>
+          <span>
+            {effectiveAppName || "No app"} · {selectedWorkerId || "All workers"} · {rangeLabel}
+          </span>
         </div>
         <p>
-          CSV downloads the submitted date range
-          {queryParams.eventName ? ` for ${queryParams.eventName}` : ""}.
+          Limit {submitted.limit.toLocaleString()} rows
+          {queryParams.eventName ? ` · ${queryParams.eventName}` : ""}
         </p>
       </section>
 
@@ -198,13 +201,16 @@ function RawEventsTable({ rows }: { rows: RawCustomEvent[] }) {
   return (
     <div className={styles.tableWrap}>
       <table className={styles.table}>
+        <caption className={styles.tableCaption}>
+          Submitted LOG_EVENT rows ordered by timestamp.
+        </caption>
         <thead>
           <tr>
-            <th>Timestamp</th>
-            <th>App</th>
-            <th>Worker</th>
-            <th>EventName</th>
-            <th>Payload</th>
+            <th scope="col">Timestamp</th>
+            <th scope="col">App</th>
+            <th scope="col">Worker</th>
+            <th scope="col">EventName</th>
+            <th scope="col">Payload</th>
           </tr>
         </thead>
         <tbody>
