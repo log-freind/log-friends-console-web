@@ -9,6 +9,9 @@ declare global {
 export function getConsoleApiBaseUrl() {
   if (typeof window !== "undefined") {
     const runtimeValue = window.__LOG_FRIENDS_CONFIG__?.consoleApiBaseUrl;
+    if (runtimeValue === "/") {
+      return window.location.origin;
+    }
     if (runtimeValue) {
       return trimTrailingSlash(runtimeValue);
     }
