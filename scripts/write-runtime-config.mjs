@@ -7,7 +7,9 @@ const consoleApiBaseUrl = process.env.CONSOLE_API_BASE_URL ||
   "http://localhost:8080";
 
 const config = {
-  consoleApiBaseUrl: consoleApiBaseUrl.replace(/\/$/, ""),
+  consoleApiBaseUrl: consoleApiBaseUrl === "/"
+    ? "/"
+    : consoleApiBaseUrl.replace(/\/$/, ""),
 };
 
 mkdirSync(dirname(outputPath), { recursive: true });
