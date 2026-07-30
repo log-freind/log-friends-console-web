@@ -2,6 +2,10 @@ import { getConsoleApiBaseUrl } from "@/lib/config/env";
 import type {
   CatalogApp,
   LogCatalogEventsResponse,
+  OverviewBusinessItem,
+  OverviewPerformanceItem,
+  OverviewReliability,
+  OverviewTrafficItem,
   RawCustomEvent,
 } from "@/types/console";
 
@@ -72,6 +76,38 @@ export async function fetchRawCustomEvents(
   return (await response.json()) as RawCustomEvent[];
 }
 
+export type OverviewParams = {
+  from: string;
+  to: string;
+  appName?: string;
+  workerId?: string;
+  limit?: number;
+};
+
+export function fetchOverviewTraffic(
+  params: OverviewParams,
+): Promise<{ items: OverviewTrafficItem[] }> {
+  return fetchOverviewResource("/api/overview/traffic", params);
+}
+
+export function fetchOverviewPerformance(
+  params: OverviewParams,
+): Promise<{ items: OverviewPerformanceItem[] }> {
+  return fetchOverviewResource("/api/overview/performance", params);
+}
+
+export function fetchOverviewBusiness(
+  params: OverviewParams,
+): Promise<{ items: OverviewBusinessItem[] }> {
+  return fetchOverviewResource("/api/overview/business", params);
+}
+
+export function fetchOverviewReliability(
+  params: OverviewParams,
+): Promise<OverviewReliability> {
+  return fetchOverviewResource("/api/overview/reliability", params);
+}
+
 export function buildRawCustomEventsCsvUrl(params: Omit<RawCustomEventsParams, "limit">) {
   return buildRawCustomEventsUrl("/api/events/custom.csv", params);
 }
@@ -102,6 +138,38 @@ function buildRawCustomEventsUrl(
   }
 
   return `${getConsoleApiBaseUrl()}${path}?${searchParams.toString()}`;
+}
+
+async function fetchOverviewResource<T>(
+  path: string,
+  params: OverviewParams,
+): Promise<T> {
+  const searchParams = new URLSearchParams({
+    from: params.from,
+    to: params.to,
+  });
+
+  if (params.appName) {
+    searchParams.set("appName", params.appName);
+  }
+
+  if (params.workerId) {
+    searchParams.set("workerId", params.workerId);
+  }
+
+  if (params.limit) {
+    searchParams.set("limit", String(params.limit));
+  }
+
+  const response = await fetch(
+    `${getConsoleApiBaseUrl()}${path}?${searchParams.toString()}`,
+  );
+
+  if (!response.ok) {
+    throw new Error(`Failed to fetch ${path}. HTTP ${response.status}`);
+  }
+
+  return (await response.json()) as T;
 }
 
 function isCatalogAppsResponse(value: unknown): value is { apps: CatalogApp[] } {

@@ -20,7 +20,7 @@ log-friends-sdk
 
 | Route | Purpose |
 |---|---|
-| `/` | overview, Console API health, app count, migration targets |
+| `/` | traffic, performance, business, and reliability overview |
 | `/log-catalog` | app/worker filtering, event list, event detail, LogSpec hints, fields, mismatches |
 | `/raw-events` | raw `LOG_EVENT` query, app/worker/eventName/time range/limit filters, CSV download |
 
@@ -35,6 +35,10 @@ GET /api/log-catalog/apps
 GET /api/log-catalog/apps/{appName}/events
 GET /api/events/custom
 GET /api/events/custom.csv
+GET /api/overview/traffic
+GET /api/overview/performance
+GET /api/overview/business
+GET /api/overview/reliability
 ```
 
 The backend remains responsible for ingest, agent registration, storage, scheduling, Log Catalog assembly, and API contracts.
