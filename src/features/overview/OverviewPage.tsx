@@ -42,7 +42,7 @@ export function OverviewPage() {
         <div>
           <p className={styles.eyebrow}>Overview</p>
           <h1>Runtime activity at a glance</h1>
-          <p>트래픽, 지연, 비즈니스 이벤트, 장애 신호를 같은 기간으로 비교합니다.</p>
+          <p>트래픽, 지연, LOG_EVENT 활동, 장애 신호를 같은 기간으로 비교합니다.</p>
         </div>
         <span className={styles.range}>
           {formatDateTime(params.from)} - {formatDateTime(params.to)}
@@ -151,10 +151,10 @@ export function OverviewPage() {
           />
         </OverviewSection>
 
-        <OverviewSection title="Business" subtitle="Top LOG_EVENT names">
+        <OverviewSection title="Event Activity" subtitle="Most captured LOG_EVENT calls">
           <QueryState
             query={queries.business}
-            empty="선택한 기간에 비즈니스 이벤트가 없습니다."
+            empty="선택한 기간에 캡처된 LOG_EVENT가 없습니다."
             render={(data) => <BusinessList items={data.items} />}
           />
         </OverviewSection>
