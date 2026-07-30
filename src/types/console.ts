@@ -5,6 +5,44 @@ export type CatalogApp = {
   workerIds: string[];
 };
 
+export type OverviewTrafficItem = {
+  method: string;
+  uri: string;
+  requestCount: number;
+};
+
+export type OverviewPerformanceItem = OverviewTrafficItem & {
+  averageDurationMs: number;
+  p95DurationMs: number;
+  maxDurationMs: number;
+};
+
+export type OverviewBusinessItem = {
+  eventName: string;
+  eventCount: number;
+};
+
+export type OverviewReliability = {
+  http: {
+    totalRequests: number;
+    errorRequests: number;
+    errorRate: number;
+  };
+  ingest: {
+    failedEvents: number;
+  };
+  topHttpErrors: {
+    method: string;
+    uri: string;
+    statusCode: number;
+    errorCount: number;
+  }[];
+  topIngestFailures: {
+    reasonCode: string;
+    failureCount: number;
+  }[];
+};
+
 export type LogCatalogEventsResponse = {
   appName: string;
   selectedWorkerId: string | null;
