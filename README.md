@@ -1,14 +1,21 @@
 # log-friends-console-web
 
-Standalone Next.js frontend for Log Friends Console.
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
+[![Console Web CI/CD](https://github.com/log-freind/log-friends-console-web/actions/workflows/ci-cd.yml/badge.svg)](https://github.com/log-freind/log-friends-console-web/actions/workflows/ci-cd.yml)
+[![Next.js](https://img.shields.io/badge/Next.js-16-black.svg)](https://nextjs.org/)
 
-`log-friends-console` remains the backend API. This repository owns the browser UI: app selection, event exploration, Raw Events filtering, and CSV download.
+Standalone web console for reviewing the structured events collected by Log Friends.
+
+The first screen compares traffic, latency, captured event activity, and failure signals for the same time range. Log Catalog then connects an event to its API, field descriptions, real payload shape, and mismatches. Raw Events keeps the unmodified records available for filtering and CSV export.
 
 ```text
-log-friends-sdk
-  -> log-friends-console backend API
+Spring Boot service
+  -> log-friends-sdk
+  -> log-friends-console API
   -> log-friends-console-web
 ```
+
+This browser app never accesses PostgreSQL/TimescaleDB directly.
 
 ## Requirements
 
@@ -20,7 +27,7 @@ log-friends-sdk
 
 | Route | Purpose |
 |---|---|
-| `/` | traffic, performance, business, and reliability overview |
+| `/` | traffic, performance, event activity, and reliability overview |
 | `/log-catalog` | app/worker filtering, event list, event detail, LogSpec hints, fields, mismatches |
 | `/raw-events` | raw `LOG_EVENT` query, app/worker/eventName/time range/limit filters, CSV download |
 
@@ -45,13 +52,20 @@ The backend remains responsible for ingest, agent registration, storage, schedul
 
 ## Environment
 
-Create `.env.local` when the backend is not on the default URL:
+For direct local access to a backend on port `8080`:
 
 ```bash
 NEXT_PUBLIC_CONSOLE_API_BASE_URL=http://localhost:8080
 ```
 
-The default is `http://localhost:8080`. A trailing slash is removed in the runtime config.
+For same-origin ingress or a local Next.js proxy, start from `.env.example`:
+
+```bash
+NEXT_PUBLIC_CONSOLE_API_BASE_URL=/console-api
+CONSOLE_API_PROXY_TARGET=http://localhost:8080
+```
+
+The container also writes `CONSOLE_API_BASE_URL` into `public/runtime-config.js` at startup. This keeps one image reusable when the external host changes.
 
 ## Local Development
 
@@ -93,10 +107,11 @@ The important boundary is the API contract. Console Web should not know backend 
 
 Implemented:
 
-- Overview page
+- Overview filters and Traffic, Performance, Event Activity, Reliability panels
 - Log Catalog page
 - Event list and detail split
 - Client-side event paging
+- LogSpec hints, field descriptions, recent payload comparison, and mismatch state
 - Raw Events page
 - CSV download link generation
 - Console API health check
@@ -107,7 +122,6 @@ Planned or backend-only in this phase:
 - Server-side catalog paging
 - OpenAPI-based generated TypeScript types
 - Authentication and authorization
-- Production deployment pipeline
 
 ## Local Full Flow
 
@@ -125,3 +139,7 @@ Then use the example shop to generate events and check them in:
 http://localhost:3000/log-catalog
 http://localhost:3000/raw-events
 ```
+
+## Deployment
+
+Pull requests run lint and production build checks. Pushes to `main` additionally build an `linux/amd64` image on the NAS self-hosted runner, push commit and `latest` tags to GHCR, update the MicroK8s Deployment, and verify the ingress root.
