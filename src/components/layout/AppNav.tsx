@@ -8,6 +8,7 @@ const navItems = [
   { href: "/", label: "Overview" },
   { href: "/log-catalog", label: "Log Catalog" },
   { href: "/raw-events", label: "Raw Events" },
+  { href: "/frontend-tree", label: "Frontend Tree" },
 ];
 
 export function AppNav() {

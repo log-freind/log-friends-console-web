@@ -115,14 +115,27 @@ export type LogCatalogMismatch = {
   fieldName: string;
 };
 
+export type SourceType = "JVM" | "NODE" | "BROWSER" | "MOBILE";
+
 export type RawCustomEvent = {
+  id?: number;
   ts?: string;
   timestamp?: string;
+  receivedAt?: string;
   appName?: string;
   app?: string;
   workerId?: string;
   worker?: string;
+  sourceType?: SourceType | string;
+  sessionId?: string;
+  eventId?: string;
+  appInstanceId?: string;
+  eventType?: string;
   eventName?: string;
+  pagePath?: string;
+  componentName?: string;
+  parentComponentName?: string;
+  componentPath?: unknown;
   payload?: unknown;
   [key: string]: unknown;
 };

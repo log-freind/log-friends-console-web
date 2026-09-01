@@ -5,6 +5,7 @@ type UseRawCustomEventsQueryParams = {
   appName?: string;
   workerId?: string;
   eventName?: string;
+  sessionId?: string;
   from: string;
   to: string;
   limit: number;

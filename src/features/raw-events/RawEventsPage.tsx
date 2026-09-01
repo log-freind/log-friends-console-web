@@ -17,6 +17,7 @@ export function RawEventsPage() {
   const selectedApp = apps.find((app) => app.appName === effectiveAppName);
   const [selectedWorkerId, setSelectedWorkerId] = useState("");
   const [eventName, setEventName] = useState("");
+  const [sessionId, setSessionId] = useState("");
   const [limit, setLimit] = useState(100);
   const [from, setFrom] = useState(() => toDateTimeLocalInput(daysAgo(7)));
   const [to, setTo] = useState(() => toDateTimeLocalInput(new Date()));
@@ -24,6 +25,7 @@ export function RawEventsPage() {
     from: toIsoFromLocalInput(toDateTimeLocalInput(daysAgo(7))),
     to: toIsoFromLocalInput(toDateTimeLocalInput(new Date())),
     eventName: "",
+    sessionId: "",
     limit: 100,
   }));
 
@@ -32,6 +34,7 @@ export function RawEventsPage() {
       appName: effectiveAppName || undefined,
       workerId: selectedWorkerId || undefined,
       eventName: submitted.eventName || undefined,
+      sessionId: submitted.sessionId || undefined,
       from: submitted.from,
       to: submitted.to,
       limit: submitted.limit,
@@ -47,6 +50,7 @@ export function RawEventsPage() {
     appName: queryParams.appName,
     workerId: queryParams.workerId,
     eventName: queryParams.eventName,
+    sessionId: queryParams.sessionId,
     from: queryParams.from,
     to: queryParams.to,
   });
@@ -69,6 +73,7 @@ export function RawEventsPage() {
             from: toIsoFromLocalInput(from),
             to: toIsoFromLocalInput(to),
             eventName,
+            sessionId,
             limit,
           });
         }}
@@ -119,6 +124,14 @@ export function RawEventsPage() {
             />
           </label>
           <label className={styles.field}>
+            <span>Session ID</span>
+            <input
+              value={sessionId}
+              onChange={(event) => setSessionId(event.target.value)}
+              placeholder="sess-12345"
+            />
+          </label>
+          <label className={styles.field}>
             <span>From</span>
             <input
               value={from}
@@ -164,6 +177,7 @@ export function RawEventsPage() {
         <p>
           Limit {submitted.limit.toLocaleString()} rows
           {queryParams.eventName ? ` · ${queryParams.eventName}` : ""}
+          {queryParams.sessionId ? ` · session: ${queryParams.sessionId}` : ""}
         </p>
       </section>
 
@@ -190,7 +204,7 @@ export function RawEventsPage() {
       ) : (
         <EmptyState
           title="조회된 LOG_EVENT 없음"
-          body="필터와 날짜 범위를 넓히거나 Examples 앱에서 쇼핑몰 액션을 실행한 뒤 다시 조회해보세요."
+          body="필터와 날짜 범위를 넓히거나 Examples 앱 또는 TypeScript SDK에서 이벤트를 발생시킨 뒤 다시 조회해보세요."
         />
       )}
     </main>
@@ -209,26 +223,52 @@ function RawEventsTable({ rows }: { rows: RawCustomEvent[] }) {
             <th scope="col">Timestamp</th>
             <th scope="col">App</th>
             <th scope="col">Worker</th>
+            <th scope="col">Source</th>
+            <th scope="col">Session ID</th>
+            <th scope="col">Event ID</th>
             <th scope="col">EventName</th>
             <th scope="col">Payload</th>
           </tr>
         </thead>
         <tbody>
-          {rows.map((row, index) => (
-            <tr key={`${row.workerId ?? row.worker}-${row.eventName}-${index}`}>
-              <td className={styles.timestampCell}>
-                {formatDate(String(row.ts ?? row.timestamp ?? ""))}
-              </td>
-              <td className={styles.textCell}>{String(row.appName ?? row.app ?? "-")}</td>
-              <td className={styles.textCell}>{String(row.workerId ?? row.worker ?? "-")}</td>
-              <td>
-                <span className={styles.eventName}>{String(row.eventName ?? "-")}</span>
-              </td>
-              <td>
-                <pre className={styles.payload}>{formatPayload(row.payload ?? row)}</pre>
-              </td>
-            </tr>
-          ))}
+          {rows.map((row, index) => {
+            const rawSource = row.sourceType ?? row.source;
+            const sourceType =
+              typeof rawSource === "string" && rawSource.trim().length > 0
+                ? rawSource.trim().toUpperCase()
+                : "UNKNOWN";
+            const sourceClass =
+              sourceType === "BROWSER"
+                ? styles.sourceBrowser
+                : sourceType === "MOBILE"
+                  ? styles.sourceMobile
+                  : sourceType === "NODE"
+                    ? styles.sourceNode
+                    : sourceType === "JVM"
+                      ? styles.sourceJvm
+                      : styles.sourceUnknown;
+
+            return (
+              <tr key={`${row.workerId ?? row.worker}-${row.eventName}-${row.eventId ?? index}`}>
+                <td className={styles.timestampCell}>
+                  {formatDate(String(row.ts ?? row.timestamp ?? ""))}
+                </td>
+                <td className={styles.textCell}>{String(row.appName ?? row.app ?? "-")}</td>
+                <td className={styles.textCell}>{String(row.workerId ?? row.worker ?? "-")}</td>
+                <td>
+                  <span className={`${styles.sourceBadge} ${sourceClass}`}>{sourceType}</span>
+                </td>
+                <td className={styles.idCell}>{String(row.sessionId || "-")}</td>
+                <td className={styles.idCell}>{String(row.eventId || "-")}</td>
+                <td>
+                  <span className={styles.eventName}>{String(row.eventName ?? "-")}</span>
+                </td>
+                <td>
+                  <pre className={styles.payload}>{formatPayload(row.payload ?? row)}</pre>
+                </td>
+              </tr>
+            );
+          })}
         </tbody>
       </table>
     </div>

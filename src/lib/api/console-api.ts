@@ -59,6 +59,7 @@ type RawCustomEventsParams = {
   appName?: string;
   workerId?: string;
   eventName?: string;
+  sessionId?: string;
   from: string;
   to: string;
   limit: number;
@@ -128,6 +129,10 @@ function buildRawCustomEventsUrl(
 
   if (params.eventName) {
     searchParams.set("eventName", params.eventName);
+  }
+
+  if (params.sessionId) {
+    searchParams.set("sessionId", params.sessionId);
   }
 
   searchParams.set("from", params.from);

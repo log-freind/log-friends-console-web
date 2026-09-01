@@ -9,7 +9,7 @@
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
-  width: min(1180px, 100%);
+  width: min(1280px, 100%);
   gap: 24px;
   margin: 0 auto 20px;
 }
@@ -32,7 +32,7 @@
 .toolbar {
   display: grid;
   grid-template-columns: 1fr;
-  width: min(1180px, 100%);
+  width: min(1280px, 100%);
   gap: 12px;
   border: 1px solid #d8e0ec;
   border-radius: 8px;
@@ -43,7 +43,7 @@
 
 .filterGrid {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 12px;
   min-width: 0;
 }
@@ -117,7 +117,7 @@
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
-  width: min(1180px, 100%);
+  width: min(1280px, 100%);
   gap: 16px;
   color: #516079;
   margin: 0 auto 12px;
@@ -149,7 +149,7 @@
 
 .tableWrap,
 .empty {
-  width: min(1180px, 100%);
+  width: min(1280px, 100%);
   border: 1px solid #d8e0ec;
   border-radius: 8px;
   background: #fff;
@@ -162,7 +162,7 @@
 
 .table {
   width: 100%;
-  min-width: 1040px;
+  min-width: 1200px;
   border-collapse: collapse;
   table-layout: fixed;
 }
@@ -177,19 +177,31 @@
 }
 
 .table th:nth-child(1) {
-  width: 170px;
-}
-
-.table th:nth-child(2) {
   width: 150px;
 }
 
+.table th:nth-child(2) {
+  width: 120px;
+}
+
 .table th:nth-child(3) {
-  width: 190px;
+  width: 140px;
 }
 
 .table th:nth-child(4) {
-  width: 180px;
+  width: 90px;
+}
+
+.table th:nth-child(5) {
+  width: 130px;
+}
+
+.table th:nth-child(6) {
+  width: 130px;
+}
+
+.table th:nth-child(7) {
+  width: 160px;
 }
 
 .table th,
@@ -227,13 +239,61 @@
 
 .timestampCell,
 .textCell,
-.eventName {
+.eventName,
+.idCell {
   overflow-wrap: anywhere;
 }
 
 .timestampCell {
   color: #516079 !important;
   font-size: 13px !important;
+}
+
+.idCell {
+  font-family: var(--font-geist-mono), ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 12px;
+  color: #5c6a82;
+}
+
+.sourceBadge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 760;
+  padding: 3px 6px;
+  text-transform: uppercase;
+}
+
+.sourceJvm {
+  background: #eef2ff;
+  color: #3730a3;
+  border: 1px solid #c7d2fe;
+}
+
+.sourceNode {
+  background: #ecfdf5;
+  color: #065f46;
+  border: 1px solid #a7f3d0;
+}
+
+.sourceBrowser {
+  background: #eff6ff;
+  color: #1e40af;
+  border: 1px solid #bfdbfe;
+}
+
+.sourceMobile {
+  background: #fffbeb;
+  color: #92400e;
+  border: 1px solid #fde68a;
+}
+
+.sourceUnknown {
+  background: #f1f5f9;
+  color: #475569;
+  border: 1px solid #cbd5e1;
 }
 
 .eventName {
