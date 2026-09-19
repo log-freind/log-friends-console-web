@@ -1,7 +1,6 @@
 .page {
   min-height: 100vh;
-  background: #f5f7fa;
-  color: #172033;
+  color: var(--foreground);
   padding: 32px;
 }
 
@@ -9,13 +8,13 @@
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
-  width: min(1180px, 100%);
+  width: min(1280px, 100%);
   gap: 24px;
   margin: 0 auto 20px;
 }
 
 .eyebrow {
-  color: #0d746a;
+  color: var(--primary-strong);
   font-size: 13px;
   font-weight: 760;
   letter-spacing: 0.06em;
@@ -25,7 +24,7 @@
 
 .header h1 {
   max-width: 760px;
-  font-size: 34px;
+  font-size: clamp(25px, 2.5vw, 34px);
   line-height: 1.15;
 }
 
@@ -33,11 +32,11 @@
   display: grid;
   grid-template-columns: repeat(2, minmax(180px, 260px));
   align-items: end;
-  width: min(1180px, 100%);
+  width: min(1280px, 100%);
   gap: 12px;
-  border: 1px solid #d8e0ec;
-  border-radius: 8px;
-  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--surface);
   margin: 0 auto 14px;
   padding: 16px;
 }
@@ -65,7 +64,7 @@
 .layout {
   display: grid;
   grid-template-columns: 360px minmax(0, 1fr);
-  width: min(1180px, 100%);
+  width: min(1280px, 100%);
   gap: 16px;
   margin: 0 auto;
 }
@@ -79,9 +78,9 @@
 .panel,
 .eventCard,
 .empty {
-  border: 1px solid #d8e0ec;
-  border-radius: 8px;
-  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--surface);
 }
 
 .panel {
@@ -197,14 +196,14 @@
 }
 
 .eventButton:hover {
-  border-color: #b7c2d7;
-  background: #f8fafc;
+  border-color: var(--primary);
+  background: var(--surface-muted);
 }
 
 .selectedEventButton {
-  border-color: #50738f;
-  background: #f4f8fb;
-  box-shadow: inset 3px 0 0 #256b88;
+  border-color: var(--primary);
+  background: var(--primary-soft);
+  box-shadow: inset 3px 0 0 var(--primary);
 }
 
 .eventButtonTopline {
@@ -268,9 +267,9 @@
 }
 
 .pagination button:hover:not(:disabled) {
-  border-color: #9aa9ff;
-  background: #f5f7ff;
-  color: #3345c7;
+  border-color: var(--primary);
+  background: var(--primary-soft);
+  color: var(--primary-strong);
 }
 
 .pagination button:disabled {
@@ -567,7 +566,7 @@
   }
 
   .toolbar {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .metaGrid {
@@ -576,6 +575,10 @@
 }
 
 @media (max-width: 640px) {
+  .toolbar {
+    grid-template-columns: 1fr;
+  }
+
   .header h1 {
     font-size: 30px;
   }

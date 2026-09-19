@@ -1,7 +1,6 @@
 .page {
   min-height: 100vh;
-  background: #f4f7fb;
-  color: #172033;
+  color: var(--foreground);
   padding: 32px;
 }
 
@@ -15,7 +14,7 @@
 }
 
 .eyebrow {
-  color: #0d746a;
+  color: var(--primary-strong);
   font-size: 13px;
   font-weight: 760;
   letter-spacing: 0.06em;
@@ -25,7 +24,7 @@
 
 .header h1 {
   max-width: 760px;
-  font-size: 34px;
+  font-size: clamp(25px, 2.5vw, 34px);
   line-height: 1.15;
 }
 
@@ -34,9 +33,9 @@
   grid-template-columns: 1fr;
   width: min(1280px, 100%);
   gap: 12px;
-  border: 1px solid #d8e0ec;
-  border-radius: 8px;
-  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--surface);
   margin: 0 auto 14px;
   padding: 16px;
 }
@@ -92,10 +91,10 @@
   align-items: center;
   justify-content: center;
   min-height: 44px;
-  border: 1px solid #d6defd;
+  border: 1px solid var(--border);
   border-radius: 8px;
-  background: #f7f8ff;
-  color: #4f61d8;
+  background: var(--surface);
+  color: var(--primary-strong);
   font-size: 13px;
   font-weight: 760;
   padding: 0 14px;
@@ -108,9 +107,9 @@
 }
 
 .csvButton:hover {
-  border-color: #9aa9ff;
-  background: #eef1ff;
-  color: #3345c7;
+  border-color: var(--primary);
+  background: var(--primary-soft);
+  color: var(--primary-strong);
 }
 
 .resultHeader {
@@ -150,9 +149,9 @@
 .tableWrap,
 .empty {
   width: min(1280px, 100%);
-  border: 1px solid #d8e0ec;
-  border-radius: 8px;
-  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--surface);
   margin: 0 auto;
 }
 
@@ -338,11 +337,11 @@
   width: 10px;
   height: 10px;
   border-radius: 999px;
-  background: #9aa9ff;
+  background: var(--muted);
 }
 
 .loading .stateMarker {
-  background: #0d746a;
+  background: var(--primary);
   box-shadow: 0 0 0 6px #dff5f1;
 }
 
