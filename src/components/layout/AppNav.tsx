@@ -17,7 +17,8 @@ export function AppNav() {
   return (
     <nav className={styles.nav} aria-label="Console navigation">
       <Link className={styles.brand} href="/">
-        LF Console
+        <span className={styles.brandMark} aria-hidden="true">LF</span>
+        <span className={styles.brandText}>Log Friends <small>Console</small></span>
       </Link>
       <div className={styles.links}>
         {navItems.map((item) => {

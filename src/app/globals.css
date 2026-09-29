@@ -1,15 +1,16 @@
 :root {
-  --background: #f4f7fb;
-  --foreground: #172033;
+  --background: #f5f7f8;
+  --foreground: #172a35;
   --surface: #ffffff;
-  --surface-muted: #fbfcff;
-  --border: #d8e0ec;
-  --border-soft: #edf1f6;
-  --muted: #516079;
-  --primary: #256b88;
-  --primary-strong: #174d65;
-  --focus: #256b88;
-  --danger: #d34a4a;
+  --surface-muted: #f9fbfb;
+  --border: #d5dfe2;
+  --border-soft: #e8eef0;
+  --muted: #526671;
+  --primary: #0b726d;
+  --primary-strong: #075651;
+  --primary-soft: #e7f4f1;
+  --focus: #0b726d;
+  --danger: #b63838;
 }
 
 html {
@@ -45,10 +46,20 @@ a {
 }
 
 :where(a, button, input, select, textarea):focus-visible {
-  outline: 3px solid rgba(37, 107, 136, 0.32);
-  outline-offset: 2px;
+  outline: 2px solid var(--focus);
+  outline-offset: 3px;
 }
 
 ::selection {
-  background: rgba(37, 107, 136, 0.18);
+  background: #c9ebe4;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
 }
